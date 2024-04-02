@@ -4,11 +4,10 @@
 #include <string>
 #include <sstream>
 #include <vector>
-
+#include <algorithm>
 #include <string_view>
-#include <fmt/core.h>
 
-#include "json_reader.hpp"
+#include <fmt/core.h>
 #include "showing.hpp"
 
 template<typename T>
@@ -18,19 +17,25 @@ static void shuffleContainer(T& container) {
     std::shuffle(container.begin(), container.end(), rng);
 }
 
-void TrainerWords::start() {
-    {   
-        JsonReader json;
-        const std::string name  = json.GetName();
-        const std::string sheet = json.GetSheet();
-        const std::vector<char> allColumns = json.GetListAllColumns();
-        const std::vector<char> checkingColumns = json.GetListCheckedColumns(); 
-
-        table_.Read(name, sheet, allColumns, checkingColumns);
+const std::vector<std::string> getInputWords() {
+    std::string line{};
+    std::getline(std::cin, line);
+    std::vector<std::string> inputWords{};
+    std::stringstream out(line);
+    std::string oneWord{};
+    while (out >> oneWord) {
+        inputWords.emplace_back(oneWord);
     }
+    return inputWords;
+}
+
+void TrainerWords::start() {
+    table_.Read();
+
+    //std::vector<TableReader::cIterator> allWord_test(table_.cbegin(), table_.cend());
 
     const std::vector<int> checkedColumns = table_.GetIndexesCheckedColumns();
-    
+
     std::vector<const std::vector<std::string>*> allWord;
     for( auto it = table_.cbegin(), end = table_.cend(); it !=end; it++ ) {
         allWord.push_back(&(*it));
@@ -38,10 +43,12 @@ void TrainerWords::start() {
 
     shuffleContainer(allWord);
 
-    std::random_device dev;
+    std::random_device dev{};
     std::default_random_engine engine(dev());
     std::uniform_int_distribution <int> uniform_type(0, checkedColumns.size()-1);
 
+    const size_t max = table_.GetMaxLength() + 1;
+    const std::string space(max, ' ');
     int count = 0;
     int round = 1;
     while(count != allWord.size())
@@ -56,16 +63,7 @@ void TrainerWords::start() {
             const int randomFromList = checkedColumns[uniform_type(engine)];
             std::cout << words->at(randomFromList)<< std::endl;
 
-            const size_t max = table_.GetMaxLength() + 1;
-            const std::string space(max, ' ');
-            std::string line{};
-            std::getline(std::cin, line);
-            std::vector<std::string> inputWords;
-            std::stringstream out(line);
-            std::string oneWord{};
-            while (out >> oneWord) {
-                inputWords.emplace_back(oneWord);
-            }
+            auto inputWords = getInputWords();
 
             bool correct = inputWords.size() == checkedColumns.size();
             if (correct) {

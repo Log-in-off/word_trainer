@@ -3,26 +3,21 @@
 #include <OpenXLSX.hpp>
 
 #include "showing.hpp"
-
-void TableReader::Print() {
-    const std::string space(30, ' ');
-    for(const auto & row : table_ )
-    {
-        for(uint8_t i = 0; i < row.size(); i++)
-        {
-            //std::cout << std::string_view(row[i]+space).substr(0, offset[i]+1);
-            std::cout << std::string_view(row[i]+" ") << "|";
-        }
-        std::cout << std::endl << "________________________________________________________________________\n";
-    }
-}
+#include "json_reader.hpp"
 
 int TableReader::GetMaxLength() const{
     return maxLength_;
 }
 
-void TableReader::Read(const std::string_view fileName, const std::string_view sheet, const std::vector<char>& allColumns, 
-                                                                                      const std::vector<char>& checkedColumns) {
+void TableReader::Read(std::string configName) {
+    JsonReader json(configName);
+    const std::string fileName  = json.GetName();
+    const std::string sheet = json.GetSheet();
+    const std::vector<char> allColumns = json.GetListAllColumns();
+    const std::vector<char> checkedColumns = json.GetListCheckedColumns();
+    const std::vector<char> translateColumns = json.GetListTranslateColumns();
+    const std::vector<char> promptColumns = json.GetListTranslateColumns();
+
     OpenXLSX::XLDocument doc;
     doc.open(fileName.data());
     auto wb = doc.workbook().worksheet(sheet.data());

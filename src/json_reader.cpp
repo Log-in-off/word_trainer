@@ -6,27 +6,27 @@ JsonReader::JsonReader(std::string configName){
     std::ifstream f(configName);
     json data = json::parse(f);
 
-    auto fileName = data.find("fileName");
-    if (fileName != data.end()) {
-        name_ = fileName.value();
-    }
+    GetElement(data, "fileName", name_);
+    GetElement(data, "sheet", sheet_);
 
-    auto fileSheet = data.find("sheet");
-    if (fileSheet != data.end()) {
-        sheet_ = fileSheet.value();
-    }
+    GetElements(data, "allColumns", allColumns_);
+    GetElements(data, "checkedColumns", checkedColumns_);
+    GetElements(data, "translateColumns", translateColumns_);
+    GetElements(data, "promptColumns", promptColumns_);
+}
 
-    auto fileColumns = data.find("allColumns");
-    if (fileColumns != data.end()) {
-        for(auto ch : fileColumns.value()) {
-            allColumns_.push_back(std::string(ch).at(0));
-        }
+void JsonReader::GetElement(json& data, std::string name, std::string& elem) {
+    auto tmp = data.find(name);
+    if (tmp != data.end()) {
+        elem = tmp.value();
     }
+}
 
-    auto fileCheckedColumns = data.find("checkedColumns");
-    if (fileCheckedColumns != data.end()) {
-        for(auto ch : fileCheckedColumns.value()) {
-            checkedColumns_.push_back(std::string(ch).at(0));
+void JsonReader::GetElements(json& data, std::string name, std::vector<char>& container) {
+    auto array = data.find(name);
+    if (array != data.end()) {
+        for(auto ch : array.value()) {
+            container.push_back(std::string(ch).at(0));
         }
     }
 }
@@ -45,4 +45,12 @@ std::vector<char> JsonReader::GetListAllColumns() const {
 
 std::vector<char> JsonReader::GetListCheckedColumns() const {
     return checkedColumns_;
+}
+
+std::vector<char> JsonReader::GetListPromptColumns() const {
+    return promptColumns_;
+}
+
+std::vector<char> JsonReader::GetListTranslateColumns() const {
+    return translateColumns_;    
 }

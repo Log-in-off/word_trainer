@@ -7,8 +7,7 @@
 class TableReader final{
 public:
     typedef std::vector<std::vector<std::string>>::const_iterator cIterator; 
-    void Read(const std::string_view fileName, const std::string_view sheet, const std::vector<char>& allColumns, const std::vector<char>& checkedColumns);
-    void Print();
+    void Read(std::string configName = "config.json");
     int GetMaxLength() const;
     std::vector<int> GetIndexesCheckedColumns() const;
     cIterator cbegin() const;

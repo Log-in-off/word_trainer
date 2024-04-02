@@ -2,5 +2,7 @@
     "fileName": "words.xlsx",
     "sheet": "100=70%",
     "allColumns" : ["A", "B", "C", "D", "E", "F", "G"],
-    "checkedColumns" : ["B", "D", "F"]
+    "checkedColumns" : ["B", "D", "F"],
+    "translateColumns" : ["A"],
+    "promptColumns" : ["A", "B", "D", "F"]
 }
