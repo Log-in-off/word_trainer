@@ -13,23 +13,23 @@ std::vector<int> getIndexColumns(const std::vector<char>& columns) {
     return res;
 }
 
-int TableReader::GetMaxLength() const{
+int TableReader::getMaxLength() const {
     return maxLength_;
 }
 
-void TableReader::Read(std::string configName) {
+void TableReader::read(std::string configName) {
     JsonReader json(configName);
-    const std::string fileName  = json.GetName();
-    const std::string sheet = json.GetSheet();
-    const std::vector<char> allColumns = json.GetListAllColumns();
-    const std::vector<char> checkedColumns = json.GetListCheckedColumns();
-    const std::vector<char> translateColumns = json.GetListTranslateColumns();
-    const std::vector<char> promptColumns = json.GetListPromptColumns();
-    
+    const std::string fileName  = json.getName();
+    const std::string sheet = json.getSheet();
+    const std::vector<char> allColumns = json.getListAllColumns();
+    const std::vector<char> checkedColumns = json.getListCheckedColumns();
+    const std::vector<char> translateColumns = json.getListTranslateColumns();
+    const std::vector<char> promptColumns = json.getListPromptColumns();
+
     const std::vector<int> numbersOfColumns = getIndexColumns(allColumns);
 
-    indexesCheckedColumns_ = MakeIndexesColumns(allColumns, checkedColumns);
-    indexesPromptColumns_ = MakeIndexesColumns(allColumns, promptColumns);
+    indexesCheckedColumns_ = makeIndexesColumns(allColumns, checkedColumns);
+    indexesPromptColumns_ = makeIndexesColumns(allColumns, promptColumns);
 
     OpenXLSX::XLDocument doc;
     doc.open(fileName.data());
@@ -51,9 +51,8 @@ void TableReader::Read(std::string configName) {
 
             if (column == *numbersOfColumns.begin())
                 table_.push_back({field});
-            else 
-            {
-                const auto countLetters = count_letters(field);
+            else {
+                const auto countLetters = getCountLetters(field);
                 maxLength_ = maxLength_ > countLetters ? maxLength_ : countLetters;
                 table_.back().push_back(field);
             }
@@ -62,20 +61,18 @@ void TableReader::Read(std::string configName) {
     }
 }
 
-std::vector<int> TableReader::GetIndexesCheckedColumns() const {
+std::vector<int> TableReader::getIndexesCheckedColumns() const {
     return indexesCheckedColumns_;
 }
 
-std::vector<int> TableReader::GetIndexesPromptColumns() const
-{
+std::vector<int> TableReader::getIndexesPromptColumns() const {
     return indexesPromptColumns_;
 }
 
-std::vector<int> TableReader::MakeIndexesColumns(const std::vector<char>& allColumns, const std::vector<char>& checkedColumns) {
+std::vector<int> TableReader::makeIndexesColumns(const std::vector<char>& allColumns, const std::vector<char>& checkedColumns) {
     std::vector<int> res{};
     for (auto colum:checkedColumns) {
-        if (allColumns.end() != std::find(allColumns.begin(), allColumns.end(), colum))
-        {
+        if (allColumns.end() != std::find(allColumns.begin(), allColumns.end(), colum)) {
             res.push_back(colum - allColumns.front());
         }
     }

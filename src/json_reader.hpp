@@ -9,15 +9,15 @@ using json = nlohmann::json;
 class JsonReader final {
 public:
     JsonReader(std::string configName = "config.json");
-    std::string GetName() const;
-    std::string GetSheet() const;
-    std::vector<char> GetListAllColumns() const;
-    std::vector<char> GetListCheckedColumns() const;
-    std::vector<char> GetListPromptColumns() const;
-    std::vector<char> GetListTranslateColumns() const;
+    std::string getName() const;
+    std::string getSheet() const;
+    std::vector<char> getListAllColumns() const;
+    std::vector<char> getListCheckedColumns() const;
+    std::vector<char> getListPromptColumns() const;
+    std::vector<char> getListTranslateColumns() const;
 private:
-    void GetElement(json& data, std::string name, std::string& elem);
-    void GetElements(json& data, std::string name, std::vector<char>& container);
+    void getElement(json& data, std::string name, std::string& elem);
+    void getElements(json& data, std::string name, std::vector<char>& container);
     std::string name_{};
     std::string sheet_{};
     std::vector<char> allColumns_{};

@@ -30,12 +30,12 @@ const std::vector<std::string> getInputWords() {
 }
 
 void TrainerWords::start() {
-    table_.Read();
+    table_.read();
 
     //std::vector<TableReader::cIterator> allWord_test(table_.cbegin(), table_.cend());
 
-    const std::vector<int> checkedColumns = table_.GetIndexesCheckedColumns();
-    const std::vector<int> promptColumns = table_.GetIndexesPromptColumns();
+    const std::vector<int> checkedColumns = table_.getIndexesCheckedColumns();
+    const std::vector<int> promptColumns = table_.getIndexesPromptColumns();
 
     std::vector<const std::vector<std::string>*> allWord;
     for( auto it = table_.cbegin(), end = table_.cend(); it != end; it++ ) {
@@ -48,16 +48,14 @@ void TrainerWords::start() {
     std::default_random_engine engine(dev());
     std::uniform_int_distribution <int> uniform_type(0, promptColumns.size()-1);
 
-    const size_t max = table_.GetMaxLength() + 1;
+    const size_t max = table_.getMaxLength() + 1;
     const std::string space(max, ' ');
     int count = 0;
     int round = 1;
-    while(count != allWord.size())
-    {
+    while(count != allWord.size()) {
         count = 0;
         for(auto& words:allWord) {
-            if(!words)
-            {
+            if(!words) {
                 count++;
                 continue;
             }
@@ -84,7 +82,7 @@ void TrainerWords::start() {
                 std::cout << "Correct: ";
                 for (int i = 1; i < words->size(); i++) {
                     const std::string& word = words->at(i);
-                    fmt::print("{}", std::string_view(word + space).substr(0, max - (count_letters(word) - word.size() ) ));
+                    fmt::print("{}", std::string_view(word + space).substr(0, max - (getCountLetters(word) - word.size() ) ));
                 } 
                 //std::cout << words->front() << std::endl;
                 fmt::print("{}\n", words->front());
@@ -93,8 +91,7 @@ void TrainerWords::start() {
                 auto it = inputWords.begin();
                 auto itP = checkedColumns.begin();
                 for (int i = 1; i < words->size(); i++) {
-                    if (i == *itP)
-                    {
+                    if (i == *itP) {
                         itP++;
                         if (it != inputWords.end()){
                             std::cout << std::string_view(*it + space).substr(0, max);

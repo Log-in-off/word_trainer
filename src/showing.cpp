@@ -1,7 +1,7 @@
 #include "showing.hpp"
 #include <iostream>
 
-int count_letters(const std::string& s) {
+int getCountLetters(const std::string& s) {
     const int ex0 = 0xffffffcc, ex1 = 0xffffffa9;
     int count = 0;
     for( auto ch:s) {
@@ -16,5 +16,5 @@ int count_letters(const std::string& s) {
 
 void test () {
     std::string s = {"[hˈɪdn̩]"};
-    std::cout << count_letters(s) << std::endl;
+    std::cout << getCountLetters(s) << std::endl;
 }

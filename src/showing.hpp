@@ -2,4 +2,4 @@
 
 #include <string>
 
-int count_letters(const std::string& s);
+int getCountLetters(const std::string& s);
