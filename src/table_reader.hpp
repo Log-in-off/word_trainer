@@ -10,12 +10,14 @@ public:
     void Read(std::string configName = "config.json");
     int GetMaxLength() const;
     std::vector<int> GetIndexesCheckedColumns() const;
+    std::vector<int> GetIndexesPromptColumns() const;
     cIterator cbegin() const;
     cIterator cend() const ;
 
 private:
-    void MakeIndexesCheckedColumns(const std::vector<char>& columns, const std::vector<char>& checkedColumns);
+    std::vector<int> MakeIndexesColumns(const std::vector<char>& columns, const std::vector<char>& checkedColumns);
     std::vector<std::vector<std::string>> table_{};
     std::vector<int> indexesCheckedColumns_{};
+    std::vector<int> indexesPromptColumns_{};
     int maxLength_{};
 };

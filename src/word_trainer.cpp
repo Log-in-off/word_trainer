@@ -35,9 +35,10 @@ void TrainerWords::start() {
     //std::vector<TableReader::cIterator> allWord_test(table_.cbegin(), table_.cend());
 
     const std::vector<int> checkedColumns = table_.GetIndexesCheckedColumns();
+    const std::vector<int> promptColumns = table_.GetIndexesPromptColumns();
 
     std::vector<const std::vector<std::string>*> allWord;
-    for( auto it = table_.cbegin(), end = table_.cend(); it !=end; it++ ) {
+    for( auto it = table_.cbegin(), end = table_.cend(); it != end; it++ ) {
         allWord.push_back(&(*it));
     }
 
@@ -45,7 +46,7 @@ void TrainerWords::start() {
 
     std::random_device dev{};
     std::default_random_engine engine(dev());
-    std::uniform_int_distribution <int> uniform_type(0, checkedColumns.size()-1);
+    std::uniform_int_distribution <int> uniform_type(0, promptColumns.size()-1);
 
     const size_t max = table_.GetMaxLength() + 1;
     const std::string space(max, ' ');
@@ -60,7 +61,7 @@ void TrainerWords::start() {
                 count++;
                 continue;
             }
-            const int randomFromList = checkedColumns[uniform_type(engine)];
+            const int randomFromList = promptColumns[uniform_type(engine)];
             std::cout << words->at(randomFromList)<< std::endl;
 
             auto inputWords = getInputWords();
