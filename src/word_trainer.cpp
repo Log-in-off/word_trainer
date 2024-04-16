@@ -60,7 +60,7 @@ void TrainerWords::start() {
                 continue;
             }
             const int randomFromList = promptColumns[uniform_type(engine)];
-            std::cout << words->at(randomFromList)<< std::endl;
+            fmt::print("{}\n", words->at(randomFromList));
 
             auto inputWords = getInputWords();
 
@@ -72,42 +72,41 @@ void TrainerWords::start() {
             }
 
             if (correct) {
-                std::cout << "Correct!"<< std::endl;
+                fmt::print("Correct!\n");
                 words = nullptr;
                 count++;
             }
             else {
-                std::cout << "Wrong!" << std::endl;
+                fmt::print("Wrong!\n");
                 
-                std::cout << "Correct: ";
+                fmt::print("Correct: ");
                 for (int i = 1; i < words->size(); i++) {
                     const std::string& word = words->at(i);
                     fmt::print("{}", std::string_view(word + space).substr(0, max - (getCountLetters(word) - word.size() ) ));
                 } 
-                //std::cout << words->front() << std::endl;
                 fmt::print("{}\n", words->front());
 
-                std::cout << "Answer:  ";
+                fmt::print("Answer:  ");
                 auto it = inputWords.begin();
                 auto itP = checkedColumns.begin();
                 for (int i = 1; i < words->size(); i++) {
                     if (i == *itP) {
                         itP++;
                         if (it != inputWords.end()){
-                            std::cout << std::string_view(*it + space).substr(0, max);
+                            fmt::print("{}", std::string_view(*it + space).substr(0, max));
                             it++;
                         }
                         else
-                            std::cout << std::string_view(space).substr(0, max);
+                            fmt::print("{}", std::string_view(space).substr(0, max));
                     }
                     else
-                        std::cout << std::string_view(space).substr(0, max);
+                        fmt::print("{}", std::string_view(space).substr(0, max));
                 }
                 
-                std::cout << std::endl;           
+                fmt::print("\n");           
             }
         }
-        std::cout << "Round  " <<  round << ". Passed word is " << count << std::endl;
+        fmt::print("Round {}. {} words passed\n", round, count);
         round++;
     }
     return;

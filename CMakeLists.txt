@@ -4,8 +4,15 @@ project (vebs)
 set(CMAKE_CXX_STANDARD 17)
 
 include(FetchContent)
+
+#turn off optional features OpenXLSXlib
+option(OPENXLSX_CREATE_DOCS OFF)
+option(OPENXLSX_BUILD_SAMPLES OFF)
+option(OPENXLSX_BUILD_TESTS OFF)
+option(OPENXLSX_BUILD_BENCHMARKS OFF)
+
 FetchContent_Declare(
-    NameOpenXLSXlib                   
+    NameOpenXLSXlib
     GIT_REPOSITORY https://github.com/troldal/OpenXLSX.git
     #GIT_TAG
 )
@@ -35,5 +42,3 @@ add_executable(vebs
 target_link_libraries(vebs PRIVATE OpenXLSX::OpenXLSX nlohmann_json::nlohmann_json fmt::fmt)
 target_compile_features(vebs PRIVATE cxx_std_17)
 target_link_options(vebs PRIVATE -static-libgcc -static-libstdc++)
-
-#set(MAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/cmake/Toolchain-cross-mingw32-linux.cmake")

@@ -13,8 +13,3 @@ int getCountLetters(const std::string& s) {
     }
     return  count;
 }
-
-void test () {
-    std::string s = {"[hˈɪdn̩]"};
-    std::cout << getCountLetters(s) << std::endl;
-}
