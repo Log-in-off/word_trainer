@@ -16,8 +16,8 @@ public:
     std::vector<char> getListPromptColumns() const;
     std::vector<char> getListTranslateColumns() const;
 private:
-    void getElement(json& data, std::string name, std::string& elem);
-    void getElements(json& data, std::string name, std::vector<char>& container);
+    void getElement(json& data,  const std::string &profile, const std::string &name, std::string &elem);
+    void getElements(json& data, const std::string &profile, const std::string &name, std::vector<char> &container);
     std::string name_{};
     std::string sheet_{};
     std::vector<char> allColumns_{};

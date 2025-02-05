@@ -1,8 +1,27 @@
 {
-    "fileName": "words.xlsx",
-    "sheet": "100=70%",
-    "allColumns" : ["A", "B", "C", "D", "E", "F", "G"],
-    "checkedColumns" : ["B", "D", "F"],
-    "translateColumns" : ["A"],
-    "promptColumns" : ["A", "B", "D", "F"]
+    "verbs-forms":{
+        "fileName": "words.xlsx",
+        "sheet": "100=70%",
+        "allColumns" : ["A", "B", "C", "D", "E", "F", "G"],
+        "checkedColumns" : ["B", "D", "F"],
+        "translateColumns" : ["A"],
+        "promptColumns_def" : ["A", "B", "D", "F"],
+        "promptColumns" : ["A"]
+    },
+    "gerund_vs_infinitive":{
+        "fileName": "words.xlsx",
+        "sheet": "gerund_vs_infinitive",
+        "allColumns" : ["A", "B"],
+        "checkedColumns" : ["A", "B"],
+        "translateColumns" : [],
+        "promptColumns" : ["A"]
+    },
+    "Verb-Preposition_collocations":{
+        "fileName": "words.xlsx",
+        "sheet": "Verb-Preposition_collocations",
+        "allColumns" : ["A", "B", "C"],
+        "checkedColumns" : ["A", "B", "C"],
+        "translateColumns" : [],
+        "promptColumns" : ["B"]
+    }    
 }

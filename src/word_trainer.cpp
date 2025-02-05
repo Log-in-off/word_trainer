@@ -52,6 +52,11 @@ void TrainerWords::start() {
     const std::string space(max, ' ');
     int count = 0;
     int round = 1;
+
+    //clean input
+    std::cin.clear();
+    std::cin.ignore(10000, '\n');  
+
     while(count != allWord.size()) {
         count = 0;
         for(auto& words:allWord) {
@@ -72,7 +77,7 @@ void TrainerWords::start() {
             }
 
             if (correct) {
-                fmt::print("Correct!\n");
+                fmt::print("Correct!\n\n");
                 words = nullptr;
                 count++;
             }
@@ -84,7 +89,7 @@ void TrainerWords::start() {
                     const std::string& word = words->at(i);
                     fmt::print("{}", std::string_view(word + space).substr(0, max - (getCountLetters(word) - word.size() ) ));
                 } 
-                fmt::print("{}\n", words->front());
+                fmt::print("{}\n\n", words->front());
 
                 fmt::print("Answer:  ");
                 auto it = inputWords.begin();
@@ -106,7 +111,7 @@ void TrainerWords::start() {
                 fmt::print("\n");           
             }
         }
-        fmt::print("Round {}. {} words passed\n", round, count);
+        fmt::print("Round {}. {} words passed\n\n", round, count);
         round++;
     }
     return;
